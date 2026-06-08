@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lawrence Gao — Photography</title>
+
+  <!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  PHOTOGRAPHY PORTFOLIO — Lawrence Gao                       ║
+  ║  Single-file, self-contained HTML/CSS/JS                    ║
+  ║  Built for lawrencegao.com/photography                      ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+  QUICK EDIT GUIDE:
+  - Replace placeholder <div class="image-rect"> blocks
+    with <img> tags when real photos are ready. The grid
+    accommodates any aspect ratio — no code changes needed.
+  - Update the intro "Updated" date in the <intro-date> span.
+  - Change project statuses from "Ongoing" to "Complete" etc.
+  - Add new projects by copying a .project-section block.
+  -->
+
+  <!-- === GOOGLE FONTS === -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+  </style>
+
+  <style>
+    /* ================================================================
+       CSS RESET & BASE
+       ================================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: #f5f2ec;
+      color: #1a1a1a;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      /* Prevent horizontal overflow */
+      overflow-x: hidden;
+    }
+
+    /* ================================================================
+       MAIN CONTAINER
+       ================================================================ */
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ================================================================
+       HEADER
+       ================================================================ */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 48px 0 32px;
+      border-bottom: 0.5px solid #1a1a1a;
+    }
+
+    .site-header__title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+    }
+
+    .site-header__back {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      color: #666;
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+
+    .site-header__back:hover {
+      color: #1a1a1a;
+    }
+
+    /* ================================================================
+       PAGE INTRO
+       ================================================================ */
+    .page-intro {
+      padding: 80px 0 56px;
+      text-align: center;
+    }
+
+    .page-intro__quote {
+      font-family: 'Cormorant Garamond', 'Georgia', serif;
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1.35;
+      max-width: 680px;
+      margin: 0 auto;
+      color: #1a1a1a;
+    }
+
+    .page-intro__meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      color: #666;
+      margin-top: 24px;
+      text-align: left;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ================================================================
+       PROJECT SECTION
+       ================================================================ */
+    .project-section {
+      padding: 64px 0;
+      border-top: 0.5px solid #1a1a1a;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+
+    .project-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- initial-load animation: titles visible immediately --- */
+    .project-section.title-loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-section.images-loaded {
+      /* images fade in after title delay */
+    }
+
+    /* --- upcoming project dimming --- */
+    .project-section--upcoming {
+      opacity: 0.4 !important;
+      transform: translateY(20px) !important;
+      transition: opacity 400ms ease, transform 400ms ease !important;
+      cursor: default;
+    }
+
+    .project-section--upcoming.visible {
+      opacity: 0.4 !important;
+      transform: translateY(0) !important;
+    }
+
+    .project-section--upcoming:hover {
+      opacity: 0.6 !important;
+    }
+
+    /* ================================================================
+       PROJECT HEADER (number + title + meta)
+       ================================================================ */
+    .project-header {
+      margin-bottom: 40px;
+    }
+
+    .project-number {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .project-title {
+      font-family: 'Cormorant Garamond', 'Georgia', serif;
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.15;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    .project-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 400;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .project-meta span {
+      display: inline-block;
+    }
+
+    .project-meta span + span::before {
+      content: '·';
+      margin: 0 8px;
+      color: #999;
+    }
+
+    /* ================================================================
+       IMAGE GRID — CSS Masonry (column-count)
+       ================================================================ */
+    .image-grid {
+      column-count: 3;
+      column-gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .image-grid .image-rect {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      width: 100%;
+      cursor: pointer;
+      transition: transform 300ms ease;
+      /* Base: dark gray placeholder */
+      background-color: #1e1e1e;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .image-grid .image-rect:hover {
+      transform: scale(1.02);
+    }
+
+    /* --- noise texture overlay via SVG filter --- */
+    .image-rect::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      /* Noise lives above the rect, below any future <img> */
+      z-index: 1;
+    }
+
+    /* --- When an actual <img> replaces the placeholder div --- */
+    .image-grid img {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+      transition: transform 300ms ease;
+    }
+
+    .image-grid img:hover {
+      transform: scale(1.02);
+    }
+
+    /* ================================================================
+       PROJECT STATEMENT (after images)
+       ================================================================ */
+    .project-statement {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: #1a1a1a;
+      max-width: 600px;
+      margin-bottom: 12px;
+    }
+
+    .project-series-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 400;
+      font-style: italic;
+      color: #666;
+    }
+
+    /* ================================================================
+       UPCOMING PROJECT (no images yet)
+       ================================================================ */
+    .project-upcoming-line {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .project-subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    /* ================================================================
+       LIGHTBOX
+       ================================================================ */
+    .lightbox {
+      display: none;                /* hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background-color: rgba(10, 10, 10, 0.95);
+      z-index: 9999;
+      cursor: pointer;
+      /* Flexbox centering */
+      justify-content: center;
+      align-items: center;
+      /* fade-in handled by JS class toggle */
+      opacity: 0;
+      transition: opacity 250ms ease;
+    }
+
+    .lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox__image {
+      max-width: 90vw;
+      max-height: 90vh;
+      max-height: 90dvh;
+      display: block;
+      /* No border, no shadow, no rounded corners */
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* --- Lightbox close hint (subtle, bottom) --- */
+    .lightbox__hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    .lightbox.active .lightbox__hint {
+      opacity: 1;
+      transition: opacity 300ms ease 600ms; /* delay before showing hint */
+    }
+
+    /* ================================================================
+       FOOTER
+       ================================================================ */
+    .site-footer {
+      padding: 64px 0 48px;
+      border-top: 0.5px solid #1a1a1a;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #999;
+      letter-spacing: 0.08em;
+    }
+
+    /* ================================================================
+       RESPONSIVE — Tablet
+       ================================================================ */
+    @media (max-width: 900px) {
+      .image-grid {
+        column-count: 2;
+        column-gap: 8px;
+      }
+
+      .image-grid .image-rect {
+        margin-bottom: 8px;
+      }
+
+      .project-title {
+        font-size: 36px;
+      }
+
+      .page-intro__quote {
+        font-size: 24px;
+      }
+
+      .page-wrapper {
+        padding: 0 24px;
+      }
+    }
+
+    /* ================================================================
+       RESPONSIVE — Mobile
+       ================================================================ */
+    @media (max-width: 600px) {
+      .image-grid {
+        column-count: 1;
+        column-gap: 0;
+      }
+
+      .image-grid .image-rect {
+        margin-bottom: 8px;
+      }
+
+      .project-title {
+        font-size: 28px;
+      }
+
+      .page-intro__quote {
+        font-size: 22px;
+        text-align: left;
+      }
+
+      .page-intro__meta {
+        text-align: left;
+      }
+
+      .page-intro {
+        padding: 48px 0 32px;
+      }
+
+      .page-wrapper {
+        padding: 0 16px;
+      }
+
+      .site-header {
+        padding: 24px 0 20px;
+      }
+
+      .project-section {
+        padding: 40px 0;
+      }
+    }
+
+    /* ================================================================
+       REDUCED MOTION
+       ================================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .project-section {
+        transition: none;
+      }
+
+      .image-grid .image-rect {
+        transition: none;
+      }
+
+      .image-grid .image-rect:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ==============================================================
+         HEADER
+         ============================================================== -->
+    <header class="site-header">
+      <span class="site-header__title">Lawrence Gao — Photography</span>
+      <a href="/" class="site-header__back" aria-label="Back to main site">← Back</a>
+    </header>
+
+    <!-- ==============================================================
+         INTRO
+         ============================================================== -->
+    <section class="page-intro">
+      <p class="page-intro__quote">
+        I photograph what I'm trying to understand.
+      </p>
+      <p class="page-intro__meta">
+        <!-- Update the month as projects progress -->
+        Currently: 2 projects · Updated September 2025
+      </p>
+    </section>
+
+    <!-- ==============================================================
+         PROJECT 001 — Hotchkiss: Year One
+         ============================================================== -->
+    <section class="project-section" data-project="001">
+      <div class="project-header">
+        <p class="project-number">001</p>
+        <h2 class="project-title">Hotchkiss: Year One</h2>
+        <p class="project-meta">
+          <span>2023–2024</span>
+          <span>Lakeville, Connecticut</span>
+          <span>Complete</span>
+        </p>
+      </div>
+
+      <!--
+        IMAGE GRID — 8 placeholder images.
+        Each .image-rect is a CSS-generated dark gray rectangle
+        with subtle noise texture. Height varies to simulate
+        a real photographic edit (portrait / landscape mix).
+
+        TO ADD REAL PHOTOS: replace each .image-rect with
+        <img src="path/to/photo.jpg" alt="caption">
+        The column-count masonry will handle any aspect ratio.
+      -->
+      <div class="image-grid">
+        <!-- 1: Real photo — first replaced placeholder -->
+        <img src="photos/year-one/corridor.jpg" alt="">
+        <!-- 2: Portrait — taller than wide -->
+        <div class="image-rect" style="height: 380px;" data-caption=""></div>
+        <!-- 3: Square-ish -->
+        <div class="image-rect" style="height: 300px;" data-caption=""></div>
+        <!-- 4: Wide landscape -->
+        <div class="image-rect" style="height: 240px;" data-caption=""></div>
+        <!-- 5: Portrait -->
+        <div class="image-rect" style="height: 360px;" data-caption=""></div>
+        <!-- 6: Landscape -->
+        <div class="image-rect" style="height: 260px;" data-caption=""></div>
+        <!-- 7: Tall portrait -->
+        <div class="image-rect" style="height: 400px;" data-caption=""></div>
+        <!-- 8: Wide landscape -->
+        <div class="image-rect" style="height: 220px;" data-caption=""></div>
+      </div>
+
+      <p class="project-statement">
+        The first year of boarding school is a specific kind of disorientation.
+        These photographs are an attempt to locate myself in a place that was
+        not yet home — the light in corridors, the texture of shared spaces,
+        the particular quality of attention that loneliness produces.
+      </p>
+      <p class="project-series-note">
+        12 photographs, September–December 2024
+      </p>
+    </section>
+
+    <!-- ==============================================================
+         PROJECT 002 — Hotchkiss: Year Two
+         ============================================================== -->
+    <section class="project-section" data-project="002">
+      <div class="project-header">
+        <p class="project-number">002</p>
+        <h2 class="project-title">Hotchkiss: Year Two</h2>
+        <p class="project-meta">
+          <span>2024–2025</span>
+          <span>Lakeville, Connecticut</span>
+          <span>Complete</span>
+        </p>
+      </div>
+
+      <!--
+        IMAGE GRID — 10 placeholder images.
+        Slightly larger average height than Year One,
+        suggesting more confidence and access.
+      -->
+      <div class="image-grid">
+        <div class="image-rect" style="height: 320px;" data-caption=""></div>
+        <div class="image-rect" style="height: 420px;" data-caption=""></div>
+        <div class="image-rect" style="height: 350px;" data-caption=""></div>
+        <div class="image-rect" style="height: 280px;" data-caption=""></div>
+        <div class="image-rect" style="height: 390px;" data-caption=""></div>
+        <div class="image-rect" style="height: 310px;" data-caption=""></div>
+        <div class="image-rect" style="height: 440px;" data-caption=""></div>
+        <div class="image-rect" style="height: 300px;" data-caption=""></div>
+        <div class="image-rect" style="height: 370px;" data-caption=""></div>
+        <div class="image-rect" style="height: 260px;" data-caption=""></div>
+      </div>
+
+      <p class="project-statement">
+        The same place, seen differently. By the second year the camera
+        became less of a shield and more of a reason to be somewhere.
+        These photographs are about familiarity — and what you notice
+        when novelty wears off.
+      </p>
+      <p class="project-series-note">
+        18 photographs, February–May 2025
+      </p>
+    </section>
+
+    <!-- ==============================================================
+         PROJECT 003 — 拾 / Shí [UPCOMING]
+         ============================================================== -->
+    <section class="project-section project-section--upcoming" data-project="003">
+      <div class="project-header">
+        <p class="project-number">003</p>
+        <h2 class="project-title">拾 / Shí</h2>
+        <p class="project-meta">
+          <span>Upcoming</span>
+        </p>
+      </div>
+
+      <p class="project-subtitle">
+        Beijing's informal e-waste workers — field documentation, 2025
+      </p>
+      <p class="project-upcoming-line">
+        Documentation begins summer 2025.
+      </p>
+    </section>
+
+    <!-- ==============================================================
+         PROJECT 004 — Storm [UPCOMING]
+         ============================================================== -->
+    <section class="project-section project-section--upcoming" data-project="004">
+      <div class="project-header">
+        <p class="project-number">004</p>
+        <h2 class="project-title">Storm</h2>
+        <p class="project-meta">
+          <span>Upcoming</span>
+        </p>
+      </div>
+
+      <p class="project-subtitle">
+        Visualizing atmospheric electric fields — science photography, 2025
+      </p>
+      <p class="project-upcoming-line">
+        In development.
+      </p>
+    </section>
+
+    <!-- ==============================================================
+         FOOTER
+         ============================================================== -->
+    <footer class="site-footer">
+      Lawrence Gao · Photography · <a href="/" style="color: inherit;">lawrencegao.com</a>
+    </footer>
+
+  </div><!-- /.page-wrapper -->
+
+  <!-- ================================================================
+       LIGHTBOX
+       ================================================================ -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <img class="lightbox__image" id="lightbox-img" src="" alt="">
+    <span class="lightbox__hint">Click anywhere to close</span>
+  </div>
+
+  <!-- ================================================================
+       SCRIPTS
+       ================================================================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ==============================================================
+         HELPER: PREFERS REDUCED MOTION
+         ============================================================== */
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ==============================================================
+         LIGHTBOX
+         ============================================================== */
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImg = document.getElementById('lightbox-img');
+
+      /**
+       * Open the lightbox with a given image source.
+       * For CSS placeholder rects, we show a solid dark block
+       * with the same noise texture as a stand-in.
+       * When real <img> tags are added, their src will be used.
+       *
+       * @param {string} src - Image URL (or empty string for placeholders)
+       */
+      function openLightbox(src) {
+        if (prefersReducedMotion) {
+          lightbox.style.transition = 'none';
+        }
+
+        if (src) {
+          // Real image: show it
+          lightboxImg.src = src;
+          lightboxImg.style.display = 'block';
+        } else {
+          // Placeholder: show a blank dark rect via a small data URI
+          // so the lightbox still feels intentional
+          lightboxImg.src = '';
+          lightboxImg.style.display = 'none';
+        }
+
+        lightbox.classList.add('active');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      /**
+       * Close the lightbox.
+       */
+      function closeLightbox() {
+        lightbox.classList.remove('active');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImg.src = '';
+        lightboxImg.style.display = 'block';
+        document.body.style.overflow = '';
+
+        if (prefersReducedMotion) {
+          lightbox.style.transition = '';
+        }
+      }
+
+      // --- Click on an image-rect or <img> opens lightbox ---
+      document.addEventListener('click', function (e) {
+        var target = e.target;
+
+        // Check if we clicked an image-rect placeholder or an img
+        if (target.classList.contains('image-rect') || target.closest('.image-grid img')) {
+          // If it's an <img>, get its src; otherwise no src
+          if (target.tagName === 'IMG') {
+            openLightbox(target.src);
+          } else if (target.classList.contains('image-rect')) {
+            openLightbox('');
+          }
+        }
+      });
+
+      // --- Click on lightbox overlay closes it ---
+      lightbox.addEventListener('click', function (e) {
+        // Only close if clicking the overlay, not the image itself
+        if (e.target === lightbox || e.target === lightboxImg) {
+          closeLightbox();
+        }
+      });
+
+      // --- Escape key closes lightbox ---
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+          closeLightbox();
+        }
+      });
+
+      /* ==============================================================
+         INTERSECTION OBSERVER — Scroll-triggered fade-up
+         ============================================================== */
+      var projectSections = document.querySelectorAll('.project-section');
+
+      // Only set up scroll animations if user hasn't requested reduced motion
+      if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Once visible, stop observing (only animate once)
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+          }
+        );
+
+        projectSections.forEach(function (section) {
+          observer.observe(section);
+        });
+      } else {
+        // Reduced motion or no IntersectionObserver: show everything immediately
+        projectSections.forEach(function (section) {
+          section.classList.add('visible');
+        });
+      }
+
+      /* ==============================================================
+         PAGE-LOAD ANIMATION — Sequential title fade-in
+         ============================================================== */
+      if (!prefersReducedMotion) {
+        projectSections.forEach(function (section, index) {
+          // Stagger each project's appearance by 300ms
+          var delay = index * 300;
+          setTimeout(function () {
+            section.classList.add('title-loaded');
+
+            // After all titles have faded in, make image grids visible
+            // (images live inside .project-section so they appear
+            //  naturally once the section is opaque)
+            if (index === projectSections.length - 1) {
+              // All titles loaded — the remaining sections become
+              // visible via IntersectionObserver on scroll
+            }
+          }, delay);
+        });
+      } else {
+        // Reduced motion: show all immediately
+        projectSections.forEach(function (section) {
+          section.classList.add('title-loaded', 'visible');
+        });
+      }
+
+      /* ==============================================================
+         PLACEHOLDER IMAGE COLOR VARIATION
+         Give each .image-rect a slightly different shade of dark gray
+         so the grid feels more organic even without real photos.
+         ============================================================== */
+      var imageRects = document.querySelectorAll('.image-rect');
+      imageRects.forEach(function (rect) {
+        // Random gray between #1a1a1a and #2e2e2e
+        var shade = 26 + Math.floor(Math.random() * 20); // 26-46 in hex: 1a-2e
+        var color = '#' + shade.toString(16) + shade.toString(16) + shade.toString(16);
+        rect.style.backgroundColor = color;
+      });
+
+    })();
+  </script>
+
+</body>
+</html>
