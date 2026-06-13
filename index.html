@@ -286,6 +286,17 @@
       color: #666;
     }
 
+    /* Keep the description area available when its text is intentionally blank. */
+    .project-statement:empty {
+      min-height: 100px;
+    }
+
+    .project-series-note:empty,
+    .project-subtitle:empty,
+    .project-upcoming-line:empty {
+      min-height: 20px;
+    }
+
     /* ================================================================
        UPCOMING PROJECT (no images yet)
        ================================================================ */
@@ -530,15 +541,8 @@
         <div class="image-rect" style="height: 220px;" data-caption=""></div>
       </div>
 
-      <p class="project-statement">
-        The first year of boarding school is a specific kind of disorientation.
-        These photographs are an attempt to locate myself in a place that was
-        not yet home — the light in corridors, the texture of shared spaces,
-        the particular quality of attention that loneliness produces.
-      </p>
-      <p class="project-series-note">
-        12 photographs, September–December 2024
-      </p>
+      <p class="project-statement" aria-label="Project description"></p>
+      <p class="project-series-note" aria-label="Project series note"></p>
     </section>
 
     <!-- ==============================================================
@@ -555,33 +559,17 @@
         </p>
       </div>
 
-      <!--
-        IMAGE GRID — 10 placeholder images.
-        Slightly larger average height than Year One,
-        suggesting more confidence and access.
-      -->
       <div class="image-grid">
-        <div class="image-rect" style="height: 320px;" data-caption=""></div>
-        <div class="image-rect" style="height: 420px;" data-caption=""></div>
-        <div class="image-rect" style="height: 350px;" data-caption=""></div>
-        <div class="image-rect" style="height: 280px;" data-caption=""></div>
-        <div class="image-rect" style="height: 390px;" data-caption=""></div>
-        <div class="image-rect" style="height: 310px;" data-caption=""></div>
-        <div class="image-rect" style="height: 440px;" data-caption=""></div>
-        <div class="image-rect" style="height: 300px;" data-caption=""></div>
-        <div class="image-rect" style="height: 370px;" data-caption=""></div>
-        <div class="image-rect" style="height: 260px;" data-caption=""></div>
+        <img src="photos/year-two/gluttony.jpg" alt="Gluttony">
+        <img src="photos/year-two/helplessness.jpg" alt="Helplessness">
+        <img src="photos/year-two/sloth.jpg" alt="Sloth">
+        <img src="photos/year-two/lust.jpg" alt="Lust">
+        <img src="photos/year-two/greed-and-envy.jpg" alt="Greed and Envy">
+        <img src="photos/year-two/pride.jpg" alt="Pride">
       </div>
 
-      <p class="project-statement">
-        The same place, seen differently. By the second year the camera
-        became less of a shield and more of a reason to be somewhere.
-        These photographs are about familiarity — and what you notice
-        when novelty wears off.
-      </p>
-      <p class="project-series-note">
-        18 photographs, February–May 2025
-      </p>
+      <p class="project-statement" aria-label="Project description"></p>
+      <p class="project-series-note" aria-label="Project series note"></p>
     </section>
 
     <!-- ==============================================================
@@ -596,12 +584,8 @@
         </p>
       </div>
 
-      <p class="project-subtitle">
-        Beijing's informal e-waste workers — field documentation, 2025
-      </p>
-      <p class="project-upcoming-line">
-        Documentation begins summer 2025.
-      </p>
+      <p class="project-subtitle" aria-label="Project description"></p>
+      <p class="project-upcoming-line" aria-label="Project status description"></p>
     </section>
 
     <!-- ==============================================================
@@ -616,12 +600,8 @@
         </p>
       </div>
 
-      <p class="project-subtitle">
-        Visualizing atmospheric electric fields — science photography, 2025
-      </p>
-      <p class="project-upcoming-line">
-        In development.
-      </p>
+      <p class="project-subtitle" aria-label="Project description"></p>
+      <p class="project-upcoming-line" aria-label="Project status description"></p>
     </section>
 
     <!-- ==============================================================
